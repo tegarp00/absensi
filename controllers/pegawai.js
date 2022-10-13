@@ -18,6 +18,7 @@ export const createPegawai = async (req, res) => {
 
 export const updatePegawai = async (req, res) => {
 	try {
+		/**
 		const updatedPegawai = await Pegawai.findByIdAndUpdate(
 			req.params.id,
 			{ $set: req.body },
@@ -27,7 +28,34 @@ export const updatePegawai = async (req, res) => {
 			status: 200,
 			message: "Data pegawai Berhasil diperbaharui",
 			data: updatedPegawai
+		}) */
+
+		const id = req.params.id
+		const cekId = await Pegawai.findOne({idCard: id})
+		if(!cekId) {
+			return res.status(400).json({
+				status: 400,
+				message: "ID Card pegawai tidak ada"
+			})
+		}
+
+		const { name, idCard, job, role } = req.body
+
+		const updatedPegawai = await Pegawai.updateOne({
+			name: name,
+			idCard: idCard,
+			job: job,
+			role: role,
 		})
+
+		const dataPegawai = await Pegawai.findOne({idCard: idCard})
+
+		res.status(200).json({
+			status: 200,
+			message: "Data pegawai Berhasil diperbaharui",
+			data: dataPegawai
+		})
+
 	}catch(error){
 		console.log(error)
 	}
@@ -36,7 +64,8 @@ export const updatePegawai = async (req, res) => {
 
 export const deletePegawai = async (req, res) => {
 	try {
-		const cekId = await Pegawai.findByIdAndDelete(req.params.id)
+		const idCard = req.params.id
+		const cekId = await Pegawai.findOne({idCard: idCard})
 		if(!cekId) {
 			res.status(400).json({
 				status: 400,
@@ -44,10 +73,11 @@ export const deletePegawai = async (req, res) => {
 			})
 		}
 
-		await Pegawai.findByIdAndDelete(req.params.id)
+		//await Pegawai.findByIdAndDelete(req.params.id)
+		await Pegawai.deleteOne({idCard: idCard})
 		res.status(200).json({
 			status: 200,
-			message: "Data pegawai Berhasil di hapus"
+			message: "Data pegawai Berhasil dihapus"
 		})
 	}catch(error) {
 		console.log(error)
@@ -59,6 +89,12 @@ export const getPegawai = async (req, res) => {
 		const idCard = req.params.id
 		const getPegawai = await Pegawai.findOne({idCard: idCard})
 
+		if(!getPegawai) {
+			res.status(404).json({
+				status: 404,
+				message: "ID Card tidak ditemukan"
+			})
+		}
 		res.status(200).json({
 			status: 200,
 			message: "Berhasil mendapatkan Data pegawai",
@@ -73,6 +109,14 @@ export const getPegawai = async (req, res) => {
 export const getAllPegawai = async (req, res) => {
 	try {
 		const allPegawai = await Pegawai.find();
+
+		if(allPegawai.length === 0) {
+			res.status(404).json({
+				status: 404,
+				message: "Data pegawai masih kosong"
+			})
+		}
+
 		res.status(200).json({
 			status: 200,
 			message: "Berhasil mendapatkan Data-data Pegawai",
