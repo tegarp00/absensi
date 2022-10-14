@@ -3,25 +3,21 @@ const { Schema } = mongoose;
 
 
 const KehadiranSchema = new mongoose.Schema({
-	namePegawai: {
+	idPegawai: {
 		type: String,
 		required: true
-	}
+	},
 	hadir: {
-		type: String,
-		required: true
+		type: String
 	},
 	izin: {
-		type: String,
-		required: true
+		type: String
 	},
 	cuti: {
-		type: String,
-		required: true
+		type: String
 	},
 	description: {
-		type: String,
-		required: true
+		type: String
 	}
 
 })
