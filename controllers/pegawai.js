@@ -5,7 +5,6 @@ export const createPegawai = async (req, res) => {
 	const newPegawai = new Pegawai(req.body)
 	try {
 		const savePegawai = await newPegawai.save()
-		const data = savePegawai;
 		res.status(200).json({
 			status: 200,
 			message: "Berhasil menambahkan data pegawai",
@@ -40,20 +39,16 @@ export const updatePegawai = async (req, res) => {
 		}
 
 		const { name, idCard, job, role } = req.body
+		const objId = cekId._id
 
-		const updatedPegawai = await Pegawai.updateOne({
-			name: name,
-			idCard: idCard,
-			job: job,
-			role: role,
-		})
+		const updatedPegawai = await Pegawai.findByIdAndUpdate(objId, {$set: req.body}, {new: true})
 
-		const dataPegawai = await Pegawai.findOne({idCard: idCard})
+		//const dataPegawai = await Pegawai.findOne({idCard: idCard})
 
 		res.status(200).json({
 			status: 200,
 			message: "Data pegawai Berhasil diperbaharui",
-			data: dataPegawai
+			data: updatedPegawai
 		})
 
 	}catch(error){

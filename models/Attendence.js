@@ -13,7 +13,16 @@ const KehadiranSchema = new mongoose.Schema({
 	izin: {
 		type: String
 	},
+	noIzin: {
+		type: String
+	},
 	cuti: {
+		type: String
+	},
+	noCuti: {
+		type: String
+	},
+	telat: {
 		type: String
 	},
 	description: {

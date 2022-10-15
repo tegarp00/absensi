@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import pegawaiRoute from "./routes/pegawai.js"
+import KehadiranRoute from "./routes/attendence.js"
+import reportPegawaiRoute from "./routes/laporan.js"
 
 const app = express()
 dotenv.config()
@@ -22,7 +24,9 @@ mongoose.connection.on("disconnect", () => {
 app.use(express.json())
 
 
-app.use("/api/absensi",pegawaiRoute)
+app.use("/api/absensi", pegawaiRoute)
+app.use("/api/absensi", KehadiranRoute)
+app.use("/api/absensi", reportPegawaiRoute)
 
 
 app.listen(process.env.PORT, () => {
