@@ -22,7 +22,7 @@ mongoose.connection.on("disconnect", () => {
 })
 
 app.use(express.json())
-
+ 
 
 app.use("/api/absensi", pegawaiRoute)
 app.use("/api/absensi", KehadiranRoute)

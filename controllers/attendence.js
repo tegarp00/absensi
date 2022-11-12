@@ -39,11 +39,27 @@ export const getAttendence = async (req, res) => {
 export const getAllAttendence = async (req, res) => {
 	try {
 		const allAttendence = await Attendence.find()
+		let resAttendence = []
+
+		for (const attendence of allAttendence) {
+			let respAttendence = {
+				_id: attendence._id,
+				idPegawai: attendence.idPegawai,
+				hadir: attendence.hadir,
+				izin: attendence.izin,
+				noIzin: attendence.noIzin,
+				cuti: attendence.cuti,
+				noCuti: attendence.noCuti,
+				telat: attendence.telat,
+				description: attendence.description
+			}
+			resAttendence.push(respAttendence)
+		}
 
 		res.status(200).json({
 			status: 200,
 			message: "Berhasil mendapatkan Data Attendence pegawai",
-			data: allAttendence
+			data: resAttendence
 		})
 	}catch(error) {
 		console.log(error)
